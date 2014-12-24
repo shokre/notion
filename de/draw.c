@@ -222,6 +222,7 @@ static void debrush_do_do_draw_border(DEBrush *brush, WRectangle geom,
     switch(bd->style){
     case DEBORDER_RIDGE:
         draw_border(win, gc, &geom, bd->hl, bd->sh, cg->hl, cg->sh);
+        /* no break */
     case DEBORDER_INLAID:
         draw_border(win, gc, &geom, bd->pad, bd->pad, cg->pad, cg->pad);
         draw_border(win, gc, &geom, bd->sh, bd->hl, cg->sh, cg->hl);
