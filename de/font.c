@@ -193,7 +193,14 @@ void de_free_font(DEFont *font)
 
 
 /*{{{ Lengths */
+void int_measure_str(XftFont *font, const char *str, int len, XGlyphInfo *extents)
+{
+	if(ioncore_g.enc_utf8)
+		XftTextExtentsUtf8(ioncore_g.dpy, font, (XftChar8 *)str, len, extents);
+	else
+		XftTextExtents8(ioncore_g.dpy, font, (XftChar8 *)str, len, extents);
 
+}
 
 void debrush_get_font_extents(DEBrush *brush, GrFontExtents *fnte)
 {
@@ -211,7 +218,7 @@ void defont_get_font_extents(DEFont *font, GrFontExtents *fnte)
 
 	if(font->font!=NULL){
 		fnte->max_height=font->font->ascent+font->font->descent;
-		fnte->max_width=font->font->max_advance_width+5;
+		fnte->max_width=font->font->max_advance_width;
 		fnte->baseline=font->font->ascent;
 		return;
 	}
@@ -232,12 +239,7 @@ uint defont_get_text_width(DEFont *font, const char *text, uint len)
 {
 	if(font->font!=NULL){
 		XGlyphInfo extents;
-		if(ioncore_g.enc_utf8)
-			XftTextExtentsUtf8(ioncore_g.dpy, font->font, (XftChar8 *)text, len,
-					&extents);
-		else
-			XftTextExtents8(ioncore_g.dpy, font->font, (XftChar8 *)text, len,
-					&extents);
+		int_measure_str(font->font, text, len, &extents);
 		return extents.xOff;
 
 	}else{
@@ -260,23 +262,22 @@ void debrush_do_draw_string_default(DEBrush *brush, int x, int y,
     GC gc=brush->d->normal_gc;
 	XftFont *font=brush->d->font->font;
 	XftDraw *draw;
+	XGlyphInfo extents;
 
     if(brush->d->font==NULL)
         return;
 
 	draw=debrush_get_draw(brush);
 
+	if(needfill || debug_draw)
+		int_measure_str(font, str, len + 1, &extents);
 
-	if(needfill){
-		XGlyphInfo extents;
-		if(ioncore_g.enc_utf8)
-			XftTextExtentsUtf8(ioncore_g.dpy, font, (XftChar8 *)str, len,
-					&extents);
-		else
-			XftTextExtents8(ioncore_g.dpy, font, (XftChar8 *)str, len, &extents);
-
-		XftDrawRect(draw, &(colours->bg.pixel), x-extents.x, y-extents.y,
-				extents.width, extents.height);
+	if (needfill) {
+		int mh = font->ascent + extents.height - extents.y;
+		if (font->height > mh)
+			mh = font->height;
+		XftDrawRect(draw, &(colours->bg.pixel), x-extents.x, y-font->ascent,
+			extents.width, mh);
 	}
 
 	if(ioncore_g.enc_utf8)
