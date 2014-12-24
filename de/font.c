@@ -99,16 +99,18 @@ static bool iso10646_font(const char *fontname)
 
 DEFont *de_load_font(const char *fontname)
 {
+	bool dbg_load = FALSE;
     DEFont *fnt;
 	XftFont *font;
 
 	assert(fontname!=NULL);
 
-	printf("Loading3 font: %s\n",  fontname);
+	if (dbg_load) printf("Loading3 font: %s\n",  fontname);
 
 	/* There shouldn't be that many fonts... */
 	for(fnt=fonts; fnt!=NULL; fnt=fnt->next){
 		if(strcmp(fnt->pattern, fontname)==0){
+			if (dbg_load) printf("- found in cache\n");
 			fnt->refcount++;
 			return fnt;
 		}
