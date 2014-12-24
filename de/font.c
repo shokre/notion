@@ -252,7 +252,17 @@ uint defont_get_text_width(DEFont *font, const char *text, uint len)
 
 
 /*{{{ String drawing */
+void dbg_draw_rect(XftDraw *draw, XftColor *col, int x, int y, int w, int h) {
+	XftDrawRect(draw, col, x, y, w, 1);
+	XftDrawRect(draw, col, x, y+h, w, 1);
+	XftDrawRect(draw, col, x, y, 1, h);
+	XftDrawRect(draw, col, x+w, y, 1, h);
+}
 
+void dbg_draw_cross(XftDraw *draw, XftColor *col, int x, int y, int s) {
+	XftDrawRect(draw, col, x - (s/2), y, s, 1);
+	XftDrawRect(draw, col, x, y - (s/2), 1, s);
+}
 
 void debrush_do_draw_string_default(DEBrush *brush, int x, int y,
                                     const char *str, int len, bool needfill,
@@ -285,6 +295,26 @@ void debrush_do_draw_string_default(DEBrush *brush, int x, int y,
 				len);
 	else
 		XftDrawString8(draw, &(colours->fg.pixel), font, x, y, (XftChar8 *)str, len);
+
+
+	if (debug_draw) {
+		DEColour debug_col, debug_col_anc, debug_col_proj, debug_col_box;
+
+		// printf("RN: [%s] %d\n", str, extents.width);
+		de_alloc_colour(brush->d->rootwin, &debug_col, "yellow");
+		de_alloc_colour(brush->d->rootwin, &debug_col_anc, "red");
+		de_alloc_colour(brush->d->rootwin, &debug_col_proj, "blue");
+		de_alloc_colour(brush->d->rootwin, &debug_col_box, "green");
+
+		// border around text in yellow
+		dbg_draw_rect(draw, &(debug_col.pixel), x-extents.x, y-extents.y, extents.width, extents.height);
+		// fill box in blue
+		dbg_draw_rect(draw, &(debug_col_proj.pixel), x, y-font->ascent, extents.width, font->height);
+		// anchor point from ion in red
+		dbg_draw_cross(draw, &(debug_col_anc.pixel), x, y, 5);
+		// fill start
+		dbg_draw_cross(draw, &(debug_col_box.pixel), x, y-font->ascent, 5);
+	}
 }
 
 
