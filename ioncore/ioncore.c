@@ -381,6 +381,8 @@ static bool init_global()
     ioncore_g.shape_event_basep=0;
     ioncore_g.shape_error_basep=0;
 
+    ioncore_g.debug_font_draw=FALSE;
+
     INITSTR(activated);
     INITSTR(inactivated);
     INITSTR(activity);

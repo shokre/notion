@@ -122,6 +122,7 @@ void ioncore_set(ExtlTab tab)
     extl_table_gets_b(tab, "unsqueeze", &(ioncore_g.unsqueeze_enabled));
     extl_table_gets_b(tab, "autoraise", &(ioncore_g.autoraise));
     extl_table_gets_b(tab, "autosave_layout", &(ioncore_g.autosave_layout));
+    extl_table_gets_b(tab, "debug_font_draw", &(ioncore_g.debug_font_draw));
 
     if(extl_table_gets_s(tab, "window_stacking_request", &tmp)){
         ioncore_g.window_stacking_request=stringintmap_value(win_stackrq, 
@@ -194,6 +195,7 @@ ExtlTab ioncore_get()
     extl_table_sets_b(tab, "unsqueeze", ioncore_g.unsqueeze_enabled);
     extl_table_sets_b(tab, "autoraise", ioncore_g.autoraise);
     extl_table_sets_b(tab, "autosave_layout", ioncore_g.autosave_layout);
+    extl_table_sets_b(tab, "debug_font_draw", ioncore_g.debug_font_draw);
 
     extl_table_sets_s(tab, "window_stacking_request", 
                       stringintmap_key(win_stackrq, 

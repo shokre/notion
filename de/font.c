@@ -254,6 +254,7 @@ void debrush_do_draw_string_default(DEBrush *brush, int x, int y,
                                     const char *str, int len, bool needfill,
                                     DEColourGroup *colours)
 {
+	bool debug_draw = ioncore_g.debug_font_draw;
     GC gc=brush->d->normal_gc;
 	XftFont *font=brush->d->font->font;
 	XftDraw *draw;

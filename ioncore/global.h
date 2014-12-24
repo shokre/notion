@@ -130,6 +130,9 @@ DECLSTRUCT(WGlobal){
     bool shape_extension;
     int shape_event_basep;
     int shape_error_basep;
+
+    /** font debug flags */
+    bool debug_font_draw;
 };
 
 
