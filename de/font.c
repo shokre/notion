@@ -298,22 +298,22 @@ void debrush_do_draw_string_default(DEBrush *brush, int x, int y,
 
 
 	if (debug_draw) {
-		DEColour debug_col, debug_col_anc, debug_col_proj, debug_col_box;
+		DEColour dc_yellow, dc_red, dc_blue, dc_green;
 
 		// printf("RN: [%s] %d\n", str, extents.width);
-		de_alloc_colour(brush->d->rootwin, &debug_col, "yellow");
-		de_alloc_colour(brush->d->rootwin, &debug_col_anc, "red");
-		de_alloc_colour(brush->d->rootwin, &debug_col_proj, "blue");
-		de_alloc_colour(brush->d->rootwin, &debug_col_box, "green");
+		de_alloc_colour(brush->d->rootwin, &dc_yellow, "yellow");
+		de_alloc_colour(brush->d->rootwin, &dc_red, "red");
+		de_alloc_colour(brush->d->rootwin, &dc_blue, "blue");
+		de_alloc_colour(brush->d->rootwin, &dc_green, "green");
 
 		// border around text in yellow
-		dbg_draw_rect(draw, &(debug_col.pixel), x-extents.x, y-extents.y, extents.width, extents.height);
+		dbg_draw_rect(draw, &(dc_yellow.pixel), x-extents.x, y-extents.y, extents.width, extents.height);
 		// fill box in blue
-		dbg_draw_rect(draw, &(debug_col_proj.pixel), x, y-font->ascent, extents.width, font->height);
+		dbg_draw_rect(draw, &(dc_blue.pixel), x, y-font->ascent, extents.width, font->height);
 		// anchor point from ion in red
-		dbg_draw_cross(draw, &(debug_col_anc.pixel), x, y, 5);
+		dbg_draw_cross(draw, &(dc_red.pixel), x, y, 5);
 		// fill start
-		dbg_draw_cross(draw, &(debug_col_box.pixel), x, y-font->ascent, 5);
+		dbg_draw_cross(draw, &(dc_green.pixel), x, y-font->ascent, 5);
 	}
 }
 
