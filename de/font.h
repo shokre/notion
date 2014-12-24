@@ -1,7 +1,7 @@
 /*
  * ion/de/font.h
  *
- * Copyright (c) Tuomo Valkonen 1999-2009. 
+ * Copyright (c) Tuomo Valkonen 1999-2009.
  *
  * See the included file LICENSE for details.
  */
@@ -11,6 +11,7 @@
 
 #include <ioncore/common.h>
 #include <ioncore/gr.h>
+#include <X11/Xft/Xft.h>
 
 INTRSTRUCT(DEFont);
 
@@ -24,8 +25,7 @@ INTRSTRUCT(DEFont);
 DECLSTRUCT(DEFont){
     char *pattern;
     int refcount;
-    XFontSet fontset;
-    XFontStruct *fontstruct;
+    XftFont *font;
     DEFont *next, *prev;
 };
 
@@ -37,7 +37,7 @@ extern void de_free_font(DEFont *font);
 extern void debrush_draw_string(DEBrush *brush, int x, int y,
                                 const char *str, int len, bool needfill);
 extern void debrush_do_draw_string(DEBrush *brush, int x, int y,
-                                   const char *str, int len, bool needfill, 
+                                   const char *str, int len, bool needfill,
                                    DEColourGroup *colours);
 extern void debrush_do_draw_string_default(DEBrush *brush, int x, int y,
                                            const char *str, int len, 

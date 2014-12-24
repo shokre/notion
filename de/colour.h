@@ -1,7 +1,7 @@
 /*
  * ion/de/colour.h
  *
- * Copyright (c) Tuomo Valkonen 1999-2009. 
+ * Copyright (c) Tuomo Valkonen 1999-2009.
  *
  * See the included file LICENSE for details.
  */
@@ -12,12 +12,13 @@
 #include <ioncore/common.h>
 #include <ioncore/global.h>
 #include <ioncore/rootwin.h>
+#include <X11/Xft/Xft.h>
 
 
 INTRSTRUCT(DEColourGroup);
 
 
-typedef unsigned long DEColour;
+typedef XftColor DEColour;
 
 
 DECLSTRUCT(DEColourGroup){

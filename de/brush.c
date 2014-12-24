@@ -141,6 +141,16 @@ void debrush_release(DEBrush *brush)
     destroy_obj((Obj*)brush);
 }
 
+XftDraw *debrush_get_draw(DEBrush *brush) {
+	if (brush->draw == NULL)
+		brush->draw = XftDrawCreate(ioncore_g.dpy, brush->win,
+				DefaultVisual(ioncore_g.dpy, 0),
+				DefaultColormap(ioncore_g.dpy, 0));
+	else
+		XftDrawChange(brush->draw, brush->win);
+
+	return brush->draw;
+}
 
 /*}}}*/
 

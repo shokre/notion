@@ -1,7 +1,7 @@
 /*
  * ion/de/style.c
  *
- * Copyright (c) Tuomo Valkonen 1999-2009. 
+ * Copyright (c) Tuomo Valkonen 1999-2009.
  *
  * See the included file LICENSE for details.
  */
@@ -71,10 +71,10 @@ void destyle_create_tab_gcs(DEStyle *style)
     /*gcv.function=GXclear;*/
     gcv.stipple=stipple_pixmap;
     gcvmask=GCFillStyle|GCStipple/*|GCFunction*/;
-    if(style->font!=NULL && style->font->fontstruct!=NULL){
-        gcv.font=style->font->fontstruct->fid;
+    /*if(style->font!=NULL){
+    //    gcv.font=style->font;
         gcvmask|=GCFont;
-    }
+    } */
 
     style->stipple_gc=XCreateGC(dpy, root, gcvmask, &gcv);
     XCopyGC(dpy, style->normal_gc, 
@@ -202,6 +202,11 @@ void destyle_dump(DEStyle *style)
 
 bool destyle_init(DEStyle *style, WRootWin *rootwin, const char *name)
 {
+    DEColour black, white;
+    de_alloc_colour(rootwin, &black, "black");
+    de_alloc_colour(rootwin, &white, "white");
+
+
     if(!gr_stylespec_load(&style->spec, name))
         return FALSE;
     
@@ -224,11 +229,11 @@ bool destyle_init(DEStyle *style, WRootWin *rootwin, const char *name)
     style->textalign=DEALIGN_CENTER;
 
     style->cgrp_alloced=FALSE;
-    style->cgrp.bg=DE_BLACK(rootwin);
-    style->cgrp.pad=DE_BLACK(rootwin);
-    style->cgrp.fg=DE_WHITE(rootwin);
-    style->cgrp.hl=DE_WHITE(rootwin);
-    style->cgrp.sh=DE_WHITE(rootwin);
+    style->cgrp.bg=black;
+    style->cgrp.pad=black;
+    style->cgrp.fg=white;
+    style->cgrp.hl=white;
+    style->cgrp.sh=white;
     gr_stylespec_init(&style->cgrp.spec);
     
     style->font=NULL;

@@ -163,21 +163,26 @@ static bool de_get_colour(WRootWin *rootwin, DEColour *ret,
 void de_get_colour_group(WRootWin *rootwin, DEColourGroup *cg, 
                          ExtlTab tab, DEStyle *based_on)
 {
+
     bool bgset;
     DEColour padinh;
-    
+	DEColour black, white;
+	de_alloc_colour(rootwin, &black, "black");
+	de_alloc_colour(rootwin, &white, "white");
+
+
     de_get_colour(rootwin, &(cg->hl), tab, "highlight_colour",
-                  (based_on ? based_on->cgrp.hl : DE_WHITE(rootwin)));
+                  (based_on ? based_on->cgrp.hl : white));
     de_get_colour(rootwin, &(cg->sh), tab, "shadow_colour",
-                  (based_on ? based_on->cgrp.sh : DE_WHITE(rootwin)));
+                  (based_on ? based_on->cgrp.sh : white));
     de_get_colour(rootwin, &(cg->fg), tab, "foreground_colour",
-                  (based_on ? based_on->cgrp.fg : DE_WHITE(rootwin)));
+                  (based_on ? based_on->cgrp.fg : white));
     bgset=de_get_colour(rootwin, &(cg->bg), tab, "background_colour",
-                        (based_on ? based_on->cgrp.bg : DE_BLACK(rootwin)));
+                        (based_on ? based_on->cgrp.bg : black));
                         
-    padinh=(based_on ? based_on->cgrp.pad : DE_WHITE(rootwin));
+    padinh=(based_on ? based_on->cgrp.pad : white);
     
-    de_get_colour_(rootwin, &(cg->pad), tab, "padding_colour", 
+    de_get_colour_(rootwin, &(cg->pad), tab, "padding_colour",
                    (bgset ? cg->bg : padinh), padinh);
 }
 

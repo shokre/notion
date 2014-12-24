@@ -14,6 +14,7 @@
 #include <ioncore/common.h>
 #include <ioncore/gr.h>
 #include <ioncore/rectangle.h>
+#include <X11/Xft/Xft.h>
 
 INTRCLASS(DEBrush);
 
@@ -33,6 +34,7 @@ typedef void DEBrushExtrasFn(DEBrush *brush,
 DECLCLASS(DEBrush){
     GrBrush grbrush;
     DEStyle *d;
+   	XftDraw *draw;
     DEBrushExtrasFn *extras_fn;
     int indicator_w;
     Window win;
@@ -107,6 +109,8 @@ extern void debrush_enable_transparency(DEBrush *brush, GrTransparency mode);
 
 extern void debrush_fill_area(DEBrush *brush, const WRectangle *geom);
 extern void debrush_clear_area(DEBrush *brush, const WRectangle *geom);
+
+XftDraw *debrush_get_draw(DEBrush *brush);
 
 
 #endif /* ION_DE_BRUSH_H */
