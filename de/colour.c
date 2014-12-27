@@ -33,18 +33,13 @@ bool de_alloc_colour(WRootWin *rootwin, DEColour *ret, const char *name)
 
 bool de_duplicate_colour(WRootWin *rootwin, DEColour in, DEColour *out)
 {
-	XftColor c;
-	if (XftColorAllocName(
+	return XftColorAllocValue(
 			ioncore_g.dpy,
 			DefaultVisual(ioncore_g.dpy, 0),
 			rootwin->default_cmap,
 			&(in.color),
-			&c
-	)) {
-		*out= c;
-		return TRUE;
-	}
-    return FALSE;
+			out
+	);
 }
 
 
